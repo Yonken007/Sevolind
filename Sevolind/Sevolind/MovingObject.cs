@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Sevolind
 {
-    class MovingObject
+    abstract class MovingObject
     {
+
+
+
+
+
     }
 }
