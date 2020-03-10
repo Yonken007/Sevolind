@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sevolind
 {
-    class Enemys : 
+    class Enemys
     {
     }
 }

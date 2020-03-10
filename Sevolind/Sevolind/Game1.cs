@@ -12,6 +12,8 @@ namespace Sevolind
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Map map;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -27,7 +29,7 @@ namespace Sevolind
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            map = new Map();
             base.Initialize();
         }
 
@@ -39,7 +41,13 @@ namespace Sevolind
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            Tiles.Content = Content;
+            map.Generate(new int[,] {
+                { 0,0,0,1,},
+                { 0,0,1,2,},
+                { 0,1,2,2,},
+                { 1,2,2,2,},
+            },32);
             // TODO: use this.Content to load your game content here
         }
 
@@ -75,8 +83,9 @@ namespace Sevolind
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            map.Draw(spriteBatch);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
