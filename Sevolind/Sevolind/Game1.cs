@@ -13,7 +13,7 @@ namespace Sevolind
         SpriteBatch spriteBatch;
 
         Map map;
-
+        Player player;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -30,6 +30,7 @@ namespace Sevolind
         {
             // TODO: Add your initialization logic here
             map = new Map();
+            player = new Player();
             base.Initialize();
         }
 
@@ -43,11 +44,25 @@ namespace Sevolind
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Tiles.Content = Content;
             map.Generate(new int[,] {
-                { 0,0,0,1,},
-                { 0,0,1,2,},
-                { 0,1,2,2,},
-                { 1,2,2,2,},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},                
+                { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+
             },32);
+
+            player.Load(Content);
             // TODO: use this.Content to load your game content here
         }
 
@@ -71,7 +86,11 @@ namespace Sevolind
                 Exit();
 
             // TODO: Add your update logic here
+            player.Update(gameTime);
 
+            foreach (CollisionTiles tile in map.CollisionTiles)
+                player.Collision(tile.Rectangle, map.Width, map.Height);
+            
             base.Update(gameTime);
         }
 
@@ -85,7 +104,10 @@ namespace Sevolind
 
             spriteBatch.Begin();
             map.Draw(spriteBatch);
+            player.Draw(spriteBatch);
+
             spriteBatch.End();
+                                 
             base.Draw(gameTime);
         }
     }
