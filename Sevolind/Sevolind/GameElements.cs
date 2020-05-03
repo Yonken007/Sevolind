@@ -16,6 +16,8 @@ namespace Sevolind
         static Player player;
         static List<Enemys> enemies;
         static Menu menu;
+        static Map map;
+        static CollisionTiles hap;
 
         // olika gamesates
         public enum State { Menu, Run, HighScore, Quit };
@@ -24,7 +26,7 @@ namespace Sevolind
 
         public static void Initialize()
         {
-
+           
 
         }
 
@@ -37,6 +39,29 @@ namespace Sevolind
             menu.AddItem(content.Load<Texture2D>("menu/exit"), (int)State.Quit);
 
             player = new Player(content.Load<Texture2D>("player"), 64, 150, 4.5f, 4.5f);
+            map = new Map();
+            
+
+            Tiles.Content = content;
+            map.Generate(new int[,] {
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+
+            }, 32);
+
 
         }
 
@@ -70,7 +95,7 @@ namespace Sevolind
 
         public static void RunDraw(SpriteBatch spriteBatch)
         {
-
+            map.Draw(spriteBatch);
             player.Draw(spriteBatch);
 
         }
