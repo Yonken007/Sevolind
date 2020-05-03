@@ -10,61 +10,62 @@ using System.Threading.Tasks;
 
 namespace Sevolind
 {
-    class Player
+    class Player : PhysicalObject
     {
-
-        private Texture2D texture;
-        private Vector2 position = new Vector2(64, 150);
-        private Vector2 velocity;
         private Rectangle rectangle;
+        private int points = 0;
 
         private bool hasJumped = false;
 
 
-        public Player() {}
+        public Player(Texture2D texture, float X, float Y, float speedX, float speedY): base(texture, X, Y, speedX, speedY) {}
 
 
-        public Vector2 Posistion
+        public void Reset (float X, float Y, float speedX, float speedY)
         {
 
-            get { return position; }
+            //återställ spelaren position och hastighet:
+            vector.X = X;
+            vector.Y = Y;
+            speed.X = speedX;
+            speed.Y = speedY;         
+            //gör så att spelaren lever igen:
+            IsAlive = true;
+
+
         }
 
-        
+                     
 
-        public void Load(ContentManager Content)
+             
+
+        public void Update(GameWindow window,GameTime gameTime)
         {
-
-            texture = Content.Load<Texture2D>("player");
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            position += velocity;
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 64,64 );
+            vector += speed;
+            rectangle = new Rectangle((int)vector.X, (int)vector.Y, 64,64 );
 
             Input(gameTime);
 
-            if (velocity.Y < 10)
-                velocity.Y += 0.4f;
+            if (speed.Y < 10)
+                speed.Y += 0.4f;
         }
 
-        private void Input(GameTime gameTime)
+        private void Input(GameTime gameTime) // Här läser spelet in hur karaktären ska röra sig efter tangentbordet. 
         {
 
             KeyboardState keyboard = Keyboard.GetState();
 
             if (keyboard.IsKeyDown(Keys.D))
-                velocity.X = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
+                speed.X = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
             else if (keyboard.IsKeyDown(Keys.A))
-                velocity.X = -(float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
-            else velocity.X = 0f;
+                speed.X = -(float)gameTime.ElapsedGameTime.TotalMilliseconds / 3;
+            else speed.X = 0f;
 
             if(keyboard.IsKeyDown(Keys.Space) && !hasJumped)
             {
 
-                position.Y -= 5f;
-                velocity.Y = -9f;
+                vector.Y -= 5f;
+                speed.Y = -9f;
                 hasJumped = true;
             }
         }
@@ -75,7 +76,7 @@ namespace Sevolind
             {
 
                 rectangle.Y = newRectangle.Y - rectangle.Height;
-                velocity.Y = 0f;
+                speed.Y = 0f;
                 hasJumped = false;
                 
 
@@ -84,25 +85,25 @@ namespace Sevolind
             if (rectangle.TouchLeftOf(newRectangle))
             {
 
-                position.X = newRectangle.X - rectangle.Width -2;
+                vector.X = newRectangle.X - rectangle.Width -2;
 
             }
             if (rectangle.TouchRightOf(newRectangle))
             {
 
-                position.X = newRectangle.X + newRectangle.Width + 2;
+                vector.X = newRectangle.X + newRectangle.Width + 2;
             }
 
             if (rectangle.TouchBottomOf(newRectangle))
             {
 
-                velocity.Y = 1f;
+                vector.Y = 1f;
             }
 
-            if (position.X < 0) position.X = 0;
-            if (position.X > xOffset - rectangle.Width) position.X = xOffset - rectangle.Width;
-            if (position.Y < 0) velocity.Y = 1f;
-            if (position.Y > yOffset - rectangle.Height) position.Y = yOffset - rectangle.Height;
+            if (vector.X < 0) vector.X = 0;
+            if (vector.X > xOffset - rectangle.Width) vector.X = xOffset - rectangle.Width;
+            if (vector.Y < 0) speed.Y = 1f;
+            if (vector.Y > yOffset - rectangle.Height) vector.Y = yOffset - rectangle.Height;
 
             
         }

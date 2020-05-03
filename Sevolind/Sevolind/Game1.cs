@@ -11,9 +11,9 @@ namespace Sevolind
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
-        Map map;
         Player player;
+
+        Map map;        
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -29,8 +29,9 @@ namespace Sevolind
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            GameElements.currentState = GameElements.State.Menu;
+            GameElements.Initialize();
             map = new Map();
-            player = new Player();
             base.Initialize();
         }
 
@@ -62,7 +63,7 @@ namespace Sevolind
 
             },32);
 
-            player.Load(Content);
+            GameElements.LoadContent(Content, Window);
             // TODO: use this.Content to load your game content here
         }
 
@@ -82,17 +83,42 @@ namespace Sevolind
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            //Stänger av spelet om man trycker på back-knappen på gamepaden:
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+                this.Exit();
 
-            // TODO: Add your update logic here
-            player.Update(gameTime);
+            switch (GameElements.currentState)
+            {
 
+                case GameElements.State.Run: // kör själva spelet
+                    GameElements.currentState = GameElements.RunUpdate(Content, Window, gameTime);
+                    break;
+
+                case GameElements.State.HighScore: // Highscorelistan
+                    GameElements.currentState = GameElements.HighScoreUpdate();
+                    break;
+
+                case GameElements.State.Quit: // avsluta spelet
+                    this.Exit();
+                    break;
+
+                default: // Menu
+                    GameElements.currentState = GameElements.MenuUpdate(gameTime);
+                    break;
+
+            }
+
+            /*
             foreach (CollisionTiles tile in map.CollisionTiles)
                 player.Collision(tile.Rectangle, map.Width, map.Height);
-            
+                */
+
             base.Update(gameTime);
-        }
+
+        }                   
+
+          
+ 
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -103,12 +129,31 @@ namespace Sevolind
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            map.Draw(spriteBatch);
-            player.Draw(spriteBatch);
 
-            spriteBatch.End();
-                                 
+            switch (GameElements.currentState)
+            {
+
+                case GameElements.State.Run://kör själva spelet
+                    GameElements.RunDraw(spriteBatch);
+                    break;
+
+                case GameElements.State.HighScore:// highscore listan
+                    GameElements.HighScoreDraw(spriteBatch);
+                    break;
+
+                case GameElements.State.Quit: // avsluta spelet
+                    this.Exit();
+                    break;
+
+                default: // Menyn
+                    GameElements.MenuDraw(spriteBatch);
+                    break;
+
+            }
+                       
             base.Draw(gameTime);
+            spriteBatch.End();
         }
     }
+    
 }
