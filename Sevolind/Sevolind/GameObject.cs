@@ -19,11 +19,11 @@ namespace Sevolind
             this.texture = texture;
             this.vector.X = X;
             this.vector.Y = Y;
-                        
+
         }
 
 
-
+        public Vector2 Vector { get { return vector;} } 
         public float X { get { return vector.X; } }
         public float Y { get { return vector.Y; } }
 

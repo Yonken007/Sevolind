@@ -18,8 +18,13 @@ namespace Sevolind
         private bool hasJumped = false;
 
 
-        public Player(Texture2D texture, float X, float Y, float speedX, float speedY): base(texture, X, Y, speedX, speedY) {}
+        public Player(Texture2D texture, float X, float Y, float speedX, float speedY): base(texture, X, Y, speedX, speedY)
+        {
+           
 
+        }
+
+       
 
         public void Reset (float X, float Y, float speedX, float speedY)
         {

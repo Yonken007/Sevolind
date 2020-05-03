@@ -11,9 +11,8 @@ namespace Sevolind
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Player player;
-
-        Map map;        
+        Camera camera;
+               
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -41,8 +40,9 @@ namespace Sevolind
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice); 
-            GameElements.LoadContent(Content, Window);
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            camera = new Camera(GraphicsDevice.Viewport);
+            GameElements.LoadContent(Content, Window,GraphicsDevice);
             // TODO: use this.Content to load your game content here
         }
 
@@ -87,10 +87,9 @@ namespace Sevolind
 
             }
 
-            /*
-            foreach (CollisionTiles tile in map.CollisionTiles)
-                player.Collision(tile.Rectangle, map.Width, map.Height);
-                */
+            
+           
+                
 
             base.Update(gameTime);
 
@@ -107,13 +106,23 @@ namespace Sevolind
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
-
+            if (GameElements.currentState == GameElements.State.Run)
+            {
+                spriteBatch.Begin(SpriteSortMode.Deferred,
+                                  BlendState.AlphaBlend,
+                                  null, null, null, null,
+                                  camera.Transform);
+            }
+            
+            else { spriteBatch.Begin(); }
             switch (GameElements.currentState)
             {
 
-                case GameElements.State.Run://kör själva spelet
+                case GameElements.State.Run: //kör själva spelet                                    
+                    
+                  
                     GameElements.RunDraw(spriteBatch);
+                    
                     break;
 
                 case GameElements.State.HighScore:// highscore listan
@@ -129,9 +138,9 @@ namespace Sevolind
                     break;
 
             }
-                       
-            base.Draw(gameTime);
             spriteBatch.End();
+            base.Draw(gameTime);
+            
         }
     }
     

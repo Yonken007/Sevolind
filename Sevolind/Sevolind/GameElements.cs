@@ -16,9 +16,9 @@ namespace Sevolind
         static Player player;
         static List<Enemys> enemies;
         static Menu menu;
+        static Camera camera;
         static Map map;
-        static CollisionTiles hap;
-
+      
         // olika gamesates
         public enum State { Menu, Run, HighScore, Quit };
         public static State currentState;
@@ -30,9 +30,9 @@ namespace Sevolind
 
         }
 
-        public static void LoadContent(ContentManager content, GameWindow window)
+        public static void LoadContent(ContentManager content, GameWindow window, GraphicsDevice graphics)
         {
-
+            
             menu = new Menu((int)State.Menu);
             menu.AddItem(content.Load<Texture2D>("menu/start"), (int)State.Run);
             menu.AddItem(content.Load<Texture2D>("menu/highscore"), (int)State.HighScore);
@@ -40,7 +40,7 @@ namespace Sevolind
 
             player = new Player(content.Load<Texture2D>("player"), 64, 150, 4.5f, 4.5f);
             map = new Map();
-            
+            camera = new Camera(graphics.Viewport);
 
             Tiles.Content = content;
             map.Generate(new int[,] {
@@ -80,6 +80,13 @@ namespace Sevolind
 
             player.Update(window, gameTime);
 
+            foreach(CollisionTiles tile in map.CollisionTiles)
+            {
+                player.Collision(tile.Rectangle, map.Width, map.Height);
+                camera.Update(player.Vector, map.Width, map.Height);
+
+            }
+                                   
 
             if (!player.IsAlive) //Spelaren död
             {
@@ -95,6 +102,7 @@ namespace Sevolind
 
         public static void RunDraw(SpriteBatch spriteBatch)
         {
+           
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
 
