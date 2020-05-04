@@ -16,7 +16,7 @@ namespace Sevolind
         int selected = 0;
 
         //currenHeight anväbds för att rita ut menyItems på olika höjd
-        float currentHeight = 0;
+        float currentHeight = 150;
         //lastCahnge används för att "pausa" tangentrycktningar så att det inte ska gå för fort att bläddra bland menyvalen:
         double lastChange = 0;
         // det state som representerar själva menyn
@@ -33,7 +33,7 @@ namespace Sevolind
         {
 
             //sätt höjd på item:
-            float X = 0;
+            float X = 200;
             float Y = 0 + currentHeight;
 
             //ändra currentHeight efter detta items höjd på + 20 pixlar för lite extra mellanrum:

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sevolind
 {
-    static class RectangleHelper
+    static class RectangleHelper // Den här klassen retunerar en bool beroende på om karaktären nuddar vid olika platser på skrämen
     {
 
         public static bool TouchTopOf(this Rectangle r1, Rectangle r2)

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Sevolind
 {
-    public class GameObject
+    class GameObject
     {
 
         protected Texture2D texture;
@@ -22,11 +22,20 @@ namespace Sevolind
 
         }
 
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
+
+            spriteBatch.Draw(texture, vector, Color.White);
+
+
+        }
+
 
         public Vector2 Vector { get { return vector;} } 
         public float X { get { return vector.X; } }
         public float Y { get { return vector.Y; } }
-
+        public float Width { get { return texture.Width; } }
+        public float Height { get { return texture.Height; } }
 
     }
 }

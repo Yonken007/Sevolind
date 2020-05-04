@@ -10,25 +10,17 @@ namespace Sevolind
 {
     abstract class Enemys : PhysicalObject
     {
+       
 
-
-        public Enemys(Texture2D texture, float X, float Y) : base (texture, X, Y, 0f, 1f)
+        public Enemys(Texture2D texture, float X, float Y, float speedX, float speedY) : base (texture, X, Y, 0f, 0f)
         {
-        }
-
-        public void Update(GameWindow window)
-        {
-
-            vector.Y = speed.Y;
-
-            if (vector.Y > window.ClientBounds.Height)
-                IsAlive = false;
-
+            
 
         }
+                                   
 
 
-
+        public abstract void Update(GameWindow window);
 
 
     }

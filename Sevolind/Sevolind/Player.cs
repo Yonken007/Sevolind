@@ -10,12 +10,15 @@ using System.Threading.Tasks;
 
 namespace Sevolind
 {
-   public class Player : PhysicalObject
+   class Player : PhysicalObject
     {
-        public Rectangle rectangle;
-        private int points = 0;
+        private Rectangle rectangle;       
 
         private bool hasJumped = false;
+        private bool wongame = false;
+        double time = 0;
+
+
 
 
         public Player(Texture2D texture, float X, float Y, float speedX, float speedY): base(texture, X, Y, speedX, speedY)
@@ -44,7 +47,7 @@ namespace Sevolind
 
              
 
-        public void Update(GameWindow window,GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             vector += speed;
             rectangle = new Rectangle((int)vector.X, (int)vector.Y, 64,64 );
@@ -53,6 +56,17 @@ namespace Sevolind
 
             if (speed.Y < 10)
                 speed.Y += 0.4f;
+
+            
+            if(IsAlive == false)
+            {
+
+                gameTime.TotalGameTime.TotalSeconds 0;
+            }
+
+            else { time = - time; }
+            
+
         }
 
         private void Input(GameTime gameTime) // Här läser spelet in hur karaktären ska röra sig efter tangentbordet. 
@@ -69,7 +83,7 @@ namespace Sevolind
             if(keyboard.IsKeyDown(Keys.Space) && !hasJumped)
             {
 
-                vector.Y -= 3f;
+                vector.Y -= 7f;
                 speed.Y = -9f;
                 hasJumped = true;
             }
@@ -100,20 +114,43 @@ namespace Sevolind
             }
 
             if (rectangle.TouchBottomOf(newRectangle))
-            {
-
-                vector.Y = 1f;
+            {                               
+               vector.Y = 1f;
             }
 
-            if (vector.X < 0) vector.X = 0;
-            if (vector.X > xOffset - rectangle.Width) vector.X = xOffset - rectangle.Width;
-            if (vector.Y < 0) speed.Y = 1f;
-            if (vector.Y > yOffset - rectangle.Height) vector.Y = yOffset - rectangle.Height;
+            if (vector.X < 0) vector.X = 0;//om karaktären nuddar till vänster om skärmen
+            if (vector.X > xOffset - rectangle.Width)
+            {
+                vector.X = xOffset - rectangle.Width; // om karaktären nuddar skrämen till höger
+                IsAlive = false;// När man har vunnit spelet
 
-            
+            }
+                
+            if (vector.Y < 0) speed.Y = 1f; // om karaktären nuddar toppen av skärmen
+            if (vector.Y > yOffset - rectangle.Height) // om karaktären nudar botten av skärmen
+            {
+                IsAlive = false;// ramlar ner i ett hål och dör
+                vector.Y = yOffset - rectangle.Height;
+            }                    
+
+
+
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+
+        public double Time
+        {
+
+            get { return time; }
+        }
+
+        public bool Wongame
+        {
+            get { return wongame; }
+
+        }
+
+        public override void Draw(SpriteBatch spriteBatch) // rita ut karaktären
         {
             spriteBatch.Draw(texture, rectangle, Color.White);
 

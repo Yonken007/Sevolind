@@ -11,44 +11,7 @@ namespace Sevolind
     
     public class Camera
     {
-       
-        public Matrix Transform { get; private set; }
-
-        public void Follow(Player target)
-        {
-
-            var offset = Matrix.CreateTranslation(Game1.ScreenWidth / 2, Game1.ScreenHeight / 2, 0);
-            var position = Matrix.CreateTranslation(
-                -target.Vector.X - (target.rectangle.Width / 2),
-                -target.Vector.Y - (target.rectangle.Height / 2),
-                0);
-
-            Transform = position * offset;
-
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
+             
         private Matrix transform;
         public Matrix Transform
         {
@@ -83,6 +46,6 @@ namespace Sevolind
                                                             -centre.Y + (viewport.Height / 2), 0));
         }
 
-    */
+    
     }
 }

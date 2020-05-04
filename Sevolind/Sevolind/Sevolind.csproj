@@ -49,8 +49,10 @@
     <Compile Include="Map.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="MovingObject.cs" />
+    <Compile Include="Mushroom.cs" />
     <Compile Include="PhysicalObject.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="PrintScore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RectangleHelper.cs" />
