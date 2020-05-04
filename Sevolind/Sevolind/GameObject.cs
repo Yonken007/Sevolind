@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Sevolind
 {
-    class GameObject
+    public class GameObject
     {
 
         protected Texture2D texture;

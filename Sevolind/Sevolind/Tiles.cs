@@ -43,7 +43,7 @@ namespace Sevolind
 
         public CollisionTiles(int i, Rectangle newRectangle)
         {
-            texture = Content.Load<Texture2D>("1" + i);
+            texture = Content.Load<Texture2D>("Tile" + i);
             this.Rectangle = newRectangle;
 
         }

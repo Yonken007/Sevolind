@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Sevolind
 {
-    abstract class MovingObject : GameObject // Alla objekt som ska röra på sig. 
+    public abstract class MovingObject : GameObject // Alla objekt som ska röra på sig. 
     {
         protected Vector2 speed;
 

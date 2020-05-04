@@ -26,41 +26,36 @@ namespace Sevolind
 
         public static void Initialize()
         {
-           
+            map = new Map();
+            
 
         }
 
-        public static void LoadContent(ContentManager content, GameWindow window, GraphicsDevice graphics)
+        public static void LoadContent(ContentManager Content, GameWindow window, GraphicsDevice graphics)
         {
             
             menu = new Menu((int)State.Menu);
-            menu.AddItem(content.Load<Texture2D>("menu/start"), (int)State.Run);
-            menu.AddItem(content.Load<Texture2D>("menu/highscore"), (int)State.HighScore);
-            menu.AddItem(content.Load<Texture2D>("menu/exit"), (int)State.Quit);
+            menu.AddItem(Content.Load<Texture2D>("menu/start"), (int)State.Run);
+            menu.AddItem(Content.Load<Texture2D>("menu/highscore"), (int)State.HighScore);
+            menu.AddItem(Content.Load<Texture2D>("menu/exit"), (int)State.Quit);
 
-            player = new Player(content.Load<Texture2D>("player"), 64, 150, 4.5f, 4.5f);
+            player = new Player(Content.Load<Texture2D>("player"), 64, 150, 4.5f, 4.5f);
             map = new Map();
-            camera = new Camera(graphics.Viewport);
+            camera = new Camera();
 
-            Tiles.Content = content;
+            Tiles.Content = Content;
             map.Generate(new int[,] {
                 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                { 0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,1,1,1,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,2,2,2,2,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 2,2,2,2,2,2,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0},
+                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
-            }, 32);
+            }, 64);
 
 
         }
@@ -83,7 +78,7 @@ namespace Sevolind
             foreach(CollisionTiles tile in map.CollisionTiles)
             {
                 player.Collision(tile.Rectangle, map.Width, map.Height);
-                camera.Update(player.Vector, map.Width, map.Height);
+                camera.Follow(player);
 
             }
                                    

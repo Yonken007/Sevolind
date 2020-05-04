@@ -23,7 +23,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:1.png
+/build:1.png;test.png
 
 #begin 10.png
 /importer:TextureImporter
@@ -35,7 +35,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:10.png
+/build:10.png;Tile1.png
 
 #begin 11.png
 /importer:TextureImporter
@@ -143,7 +143,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:2.png
+/build:2.png;Tile2.png
 
 #begin 3.png
 /importer:TextureImporter

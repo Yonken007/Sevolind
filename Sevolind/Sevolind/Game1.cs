@@ -12,6 +12,10 @@ namespace Sevolind
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Camera camera;
+        Player player;
+
+        public static int ScreenHeight;
+        public static int ScreenWidth;
                
         public Game1()
         {
@@ -27,8 +31,10 @@ namespace Sevolind
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+          
             GameElements.currentState = GameElements.State.Menu;
+            ScreenHeight = graphics.PreferredBackBufferHeight;
+            ScreenWidth = graphics.PreferredBackBufferWidth;
             GameElements.Initialize();           
             base.Initialize();
         }
@@ -41,7 +47,7 @@ namespace Sevolind
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            camera = new Camera(GraphicsDevice.Viewport);
+            camera = new Camera();
             GameElements.LoadContent(Content, Window,GraphicsDevice);
             // TODO: use this.Content to load your game content here
         }
@@ -70,7 +76,7 @@ namespace Sevolind
             {
 
                 case GameElements.State.Run: // kör själva spelet
-                    GameElements.currentState = GameElements.RunUpdate(Content, Window, gameTime);
+                    GameElements.currentState = GameElements.RunUpdate(Content, Window, gameTime);                    
                     break;
 
                 case GameElements.State.HighScore: // Highscorelistan
@@ -108,10 +114,7 @@ namespace Sevolind
 
             if (GameElements.currentState == GameElements.State.Run)
             {
-                spriteBatch.Begin(SpriteSortMode.Deferred,
-                                  BlendState.AlphaBlend,
-                                  null, null, null, null,
-                                  camera.Transform);
+                spriteBatch.Begin(transformMatrix: camera.Transform);
             }
             
             else { spriteBatch.Begin(); }

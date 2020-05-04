@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sevolind
 {
-    abstract class PhysicalObject : MovingObject // i physicalobject ska kolliders lägga till mellan kartan och spelaren
+   public abstract class PhysicalObject : MovingObject // i physicalobject ska kolliders lägga till mellan kartan och spelaren
     {
 
         private bool isAlive = true;

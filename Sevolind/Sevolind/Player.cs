@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Sevolind
 {
-    class Player : PhysicalObject
+   public class Player : PhysicalObject
     {
-        private Rectangle rectangle;
+        public Rectangle rectangle;
         private int points = 0;
 
         private bool hasJumped = false;
@@ -69,7 +69,7 @@ namespace Sevolind
             if(keyboard.IsKeyDown(Keys.Space) && !hasJumped)
             {
 
-                vector.Y -= 5f;
+                vector.Y -= 3f;
                 speed.Y = -9f;
                 hasJumped = true;
             }

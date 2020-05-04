@@ -8,9 +8,47 @@ using System.Threading.Tasks;
 
 namespace Sevolind
 {
+    
     public class Camera
     {
+       
+        public Matrix Transform { get; private set; }
 
+        public void Follow(Player target)
+        {
+
+            var offset = Matrix.CreateTranslation(Game1.ScreenWidth / 2, Game1.ScreenHeight / 2, 0);
+            var position = Matrix.CreateTranslation(
+                -target.Vector.X - (target.rectangle.Width / 2),
+                -target.Vector.Y - (target.rectangle.Height / 2),
+                0);
+
+            Transform = position * offset;
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
         private Matrix transform;
         public Matrix Transform
         {
@@ -27,7 +65,7 @@ namespace Sevolind
 
         }
 
-        public void Update(Vector2 position, int xOffset, int yOffset)
+        public void Update (Vector2 position, int xOffset, int yOffset)
         {
             if (position.X < viewport.Width / 2)
                 centre.X = viewport.Width / 2;
@@ -40,9 +78,11 @@ namespace Sevolind
             else if (position.Y > yOffset - (viewport.Height / 2))
                 centre.Y = yOffset - (viewport.Height / 2);
             else centre.Y = position.Y;
-
-            transform = Matrix.CreateTranslation(new Vector3(-centre.X + (viewport.Width / 2),
+            
+           transform = Matrix.CreateTranslation(new Vector3(-centre.X + (viewport.Width / 2),
                                                             -centre.Y + (viewport.Height / 2), 0));
         }
+
+    */
     }
 }
