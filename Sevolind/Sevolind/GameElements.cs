@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +20,13 @@ namespace Sevolind
         static Camera camera;
         static Map map;
         static Texture2D bakground;
-        static Texture2D goal;      
+        static Texture2D goal;
         static PrintText printtext;
-      
+        static StreamreaderAndWriter streamreaderwriter;
+        static bool havecalled = false;
+       
+
+
         // olika gamesates
         public enum State { Menu, Run, HighScore, Quit };
         public static State currentState;
@@ -30,7 +35,7 @@ namespace Sevolind
         public static void Initialize()
         {
             map = new Map();
-            
+
 
         }
 
@@ -40,7 +45,7 @@ namespace Sevolind
             menu = new Menu((int)State.Menu);
             menu.AddItem(Content.Load<Texture2D>("menu/start"), (int)State.Run);
             menu.AddItem(Content.Load<Texture2D>("menu/highscore"), (int)State.HighScore);
-            menu.AddItem(Content.Load<Texture2D>("menu/exit"), (int)State.Quit);
+            menu.AddItem(Content.Load<Texture2D>("menu/exit"), (int)State.Quit); ;
             bakground = (Content.Load<Texture2D>("menu/bakground"));
 
             player = new Player(Content.Load<Texture2D>("Player"), 30, 700, 4.5f, 4.5f);
@@ -50,7 +55,7 @@ namespace Sevolind
 
             goal = Content.Load<Texture2D>("goal");
 
-            enemies = new List<Enemys>();           
+            enemies = new List<Enemys>();
             Texture2D tmpSprite = Content.Load<Texture2D>("mushroom");
             Mushroom temp = new Mushroom(tmpSprite, 1050, 650);
 
@@ -62,26 +67,19 @@ namespace Sevolind
 
 
             Tiles.Content = Content;
-            map.Generate(new int[,] {
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,5,6,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,2,2,2},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1,1,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,0,0,0,0,0,0,4,5,6,0,0,0,0,0,0,2,1,1,1,0,0,0,0,0,0,0,0},
-                { 0,0,0,0,0,2,0,0,2,2,0,0,0,0,0,2,2,2,2,2,1,1,1,1,0,0,0,0,0,0,0,0},
-                { 2,2,2,2,2,1,0,0,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0},
-                { 1,1,1,1,1,1,0,0,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0}
 
-            }, 64);
+            streamreaderwriter = new StreamreaderAndWriter();
+            map.Generate(streamreaderwriter.StreamreaderMap(), 64); // här genereraskartan utifrån en textfil som är skriven i debugen. DU ändrar kartan genom att ändra väderna i textfilen
 
-                       
+
+            streamreaderwriter.LoadHighscore10();
+
         }
+
+               
+
+
+
 
         public static State MenuUpdate(GameTime gameTime)
         {
@@ -93,10 +91,20 @@ namespace Sevolind
             spriteBatch.Begin();
             spriteBatch.Draw(bakground,new Rectangle(0,0,870,480), Color.White);
             menu.Draw(spriteBatch);
+                      
+
+
         }
 
         public static State RunUpdate(ContentManager content, GameWindow window, GameTime gameTime)
         {
+
+            if (!havecalled)
+            {
+
+                player.GameStart(gameTime.TotalGameTime.TotalSeconds);
+                havecalled = true;
+            }
 
             player.Update(gameTime);
 
@@ -114,22 +122,21 @@ namespace Sevolind
 
             if (player.Wongame) // om man har vunnit spelet
             {
-               
 
+
+
+                streamreaderwriter.StreamWriterhighscore10(player.LastTime);
+
+                Reset(window, content);
+                return State.Menu;
             }
               
 
             foreach (Enemys e in enemies.ToList())
             {
-                if (true)//e.IsAlive) // kontrollera om fienden lever
-                {
-                    
-
-
                     if (e.CheckCollision(player)) // dödar spelaren om man kolliderar med en motståndare
                     player.IsAlive = false;
                     e.Update(window);
-                }
             }
 
                     
@@ -169,8 +176,12 @@ namespace Sevolind
         {
 
             KeyboardState keyboardState = Keyboard.GetState();
-            if (keyboardState.IsKeyDown(Keys.Escape))
+            if (keyboardState.IsKeyDown(Keys.B))
                 return State.Menu;
+
+            
+
+
 
             return State.HighScore; // Stanna kvar i HighScore
         }
@@ -179,15 +190,34 @@ namespace Sevolind
         {
 
             spriteBatch.Begin();
+            
+            printtext.Print("....To go back to menu press b ", spriteBatch, 10, 10);
+            printtext.Print("Your best highscores: ", spriteBatch, 50, 80);
+            printtext.Print("Your latest 10 scores: ", spriteBatch, 400, 80);
+
+            int spacebetweenHighscore = 30;
+            
+
+            foreach (string n in streamreaderwriter.Highscore10)
+            {
+                printtext.Print(n, spriteBatch, 400,80+spacebetweenHighscore );
+                spacebetweenHighscore += 30;
+
+            }
 
 
-            printtext.Print("Time " + (float)player.Time, spriteBatch, 20, 50);
 
             // spara alla tider som en lista och skriv sedan ut listan
 
+           
 
 
 
+        }
+
+        public static bool Havecalled
+        {
+            set { havecalled = value; }
 
         }
 

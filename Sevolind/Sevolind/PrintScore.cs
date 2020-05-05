@@ -25,8 +25,11 @@ namespace Sevolind
         {
 
             spriteBatch.DrawString(font, text, new Vector2(X, Y), Color.White);
+            
 
         }
+
+       
 
     }
 }

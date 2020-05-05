@@ -17,9 +17,15 @@ namespace Sevolind
         private bool hasJumped = false;
         private bool wongame = false;
         double time = 0;
+        double deltaTime = 0;
+        double lastTime = 0;
+        double gamestarttime = 0;
 
+        public double LastTime
+        {
+            get { return lastTime; }
 
-
+        }
 
         public Player(Texture2D texture, float X, float Y, float speedX, float speedY): base(texture, X, Y, speedX, speedY)
         {
@@ -34,18 +40,27 @@ namespace Sevolind
 
             //återställ spelaren position och hastighet:
             vector.X = X;
-            vector.Y = Y;
+            vector.Y = Y; 
             speed.X = speedX;
             speed.Y = speedY;         
             //gör så att spelaren lever igen:
             IsAlive = true;
-
+            time = 0;
+            GameElements.Havecalled = false;
+            lastTime = 0;
+            wongame = false;
 
         }
 
                      
 
-             
+        public void GameStart(double time)
+        {
+            gamestarttime = time;
+
+        }     
+
+
 
         public void Update(GameTime gameTime)
         {
@@ -57,14 +72,14 @@ namespace Sevolind
             if (speed.Y < 10)
                 speed.Y += 0.4f;
 
+
+            deltaTime = gameTime.TotalGameTime.TotalSeconds - lastTime - gamestarttime;
+            lastTime = gameTime.TotalGameTime.TotalSeconds - gamestarttime;
+
+               time += deltaTime;
             
-            if(IsAlive == false)
-            {
 
-                gameTime.TotalGameTime.TotalSeconds 0;
-            }
-
-            else { time = - time; }
+            
             
 
         }
@@ -122,7 +137,7 @@ namespace Sevolind
             if (vector.X > xOffset - rectangle.Width)
             {
                 vector.X = xOffset - rectangle.Width; // om karaktären nuddar skrämen till höger
-                IsAlive = false;// När man har vunnit spelet
+               wongame = true;// När man har vunnit spelet
 
             }
                 

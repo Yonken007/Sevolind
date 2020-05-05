@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.IO;
 
 namespace Sevolind
 {
@@ -26,8 +27,10 @@ namespace Sevolind
         {
           
             GameElements.currentState = GameElements.State.Menu;         
-            GameElements.Initialize();           
+            GameElements.Initialize();            
             base.Initialize();
+
+
         }
 
         
@@ -39,13 +42,18 @@ namespace Sevolind
             
 
 
+
             // TODO: use this.Content to load your game content here
         }
 
  
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+            StreamWriter sw = new StreamWriter("Highscore.txt", true);
+
+            
+
+            
         }
 
         
@@ -70,6 +78,7 @@ namespace Sevolind
                 case GameElements.State.Quit: // avsluta spelet
                     this.Exit();
                     break;
+            
 
                 default: // Menu
                     GameElements.currentState = GameElements.MenuUpdate(gameTime);
@@ -104,6 +113,7 @@ namespace Sevolind
                     break;
 
                 case GameElements.State.Quit: // avsluta spelet
+                    spriteBatch.Begin();
                     this.Exit();
                     break;
 
