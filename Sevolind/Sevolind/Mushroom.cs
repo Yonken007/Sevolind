@@ -8,34 +8,21 @@ using System.Threading.Tasks;
 
 namespace Sevolind
 {
-    class Mushroom : Enemys // är inte en svamp borde vara slime
+    class Mushroom : Enemys // Man kanske borde ändra namenet till slime, men tanken var att det skulle vara en annan texture. 
     {
 
-        private Rectangle rectangle;
+        private Rectangle rectangle;// beskriver 
 
-        public Mushroom(Texture2D texture, float X, float Y) : base(texture, X, Y, 2.5f, 0.3f) { }
+        public Mushroom(Texture2D texture, float X, float Y) : base(texture, X, Y, 2.5f, 0.3f) { }// om man vill kan man lägga till en förflyttning på motståndaren
 
         public override void Update(GameWindow window)
         {
 
-            rectangle = new Rectangle((int)vector.X, (int)vector.Y, 64, 64);
-
-            //flytta på fienden
-            vector.X += speed.X;
-            //Kontroller så den inte åker utanför fönstret på sidorna 
-            if (vector.X > window.ClientBounds.Width - texture.Width || vector.X < 0)
-                speed.X *= -1;
-
-            vector.Y += speed.Y;
-
-            if (vector.Y > window.ClientBounds.Height)
-                IsAlive = false;
-
-
+            rectangle = new Rectangle((int)vector.X, (int)vector.Y, 64, 64);// ändrar storleken på hur texturen kommer ritas ut på skärmen, utan den här skulle bilden bli mycket större. 
 
         }
 
-        public override void Draw(SpriteBatch spriteBatch) // rita ut karaktären
+        public override void Draw(SpriteBatch spriteBatch) // rita ut karaktären med vår speciella rectangle.
         {
             spriteBatch.Draw(texture, rectangle, Color.White);
 

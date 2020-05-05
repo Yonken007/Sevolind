@@ -14,16 +14,13 @@ namespace Sevolind
 
         List<MenuItem> menu; // Lista på menuItems
         int selected = 0;
-
-        //currenHeight anväbds för att rita ut menyItems på olika höjd
-        float currentHeight = 150;
-        //lastCahnge används för att "pausa" tangentrycktningar så att det inte ska gå för fort att bläddra bland menyvalen:
-        double lastChange = 0;
-        // det state som representerar själva menyn
-        int defaultMenuState;
+        float currentHeight = 150;//currenHeight anväbds för att rita ut menyItems på olika höjd
+        double lastChange = 0;//lastCahnge används för att "pausa" tangentrycktningar så att det inte ska gå för fort att bläddra bland menyvalen:
+        int defaultMenuState; // det state som representerar själva menyn
 
 
-        public Menu(int defaultMenuState)
+
+        public Menu(int defaultMenuState) // kontsruktorn som initizzierar defaultstate och listan av olika states
         {
             menu = new List<MenuItem>();
             this.defaultMenuState = defaultMenuState;
@@ -36,66 +33,59 @@ namespace Sevolind
             float X = 200;
             float Y = 0 + currentHeight;
 
-            //ändra currentHeight efter detta items höjd på + 20 pixlar för lite extra mellanrum:
-            currentHeight += itemTexture.Height + 20;
+           
+            currentHeight += itemTexture.Height + 20; //ändra currentHeight efter detta items höjd på + 20 pixlar för lite extra mellanrum:
 
-            // skapa ett temporärt objekt och lägg det i listan:
-            MenuItem temp = new MenuItem(itemTexture, new Vector2(X, Y), state);
+          
+            MenuItem temp = new MenuItem(itemTexture, new Vector2(X, Y), state);  // skapa ett temporärt objekt och lägg det i listan:
             menu.Add(temp);
 
         }
 
         public int Update(GameTime gameTime)
         {
-            //läs in tangentryckningar 
-            KeyboardState keyboardState = Keyboard.GetState();
+           
+            KeyboardState keyboardState = Keyboard.GetState(); //läs in tangentryckningar 
 
             //byte mellan olika menyval. Först måste vi dock kontrollera så att användaren inte precis nyligen bytte menyval. Vi vill ju inte att det ska ändras 30 eller 60 gåbger per sekund
             //därför pausar vi i 130 milisekunder:
 
             if (lastChange + 130 < gameTime.TotalGameTime.TotalMilliseconds)
             {
-                //gå ett steg ned i menyn
-                if (keyboardState.IsKeyDown(Keys.Down))
+              
+                if (keyboardState.IsKeyDown(Keys.Down))  //gå ett steg ned i menyn
                 {
 
-                    selected++;
-                    //Om vi har gått utanför de möjliga valen så vill vi att det första menyvalet ska väljar.
+                    selected++; //Om vi har gått utanför de möjliga valen så vill vi att det första menyvalet ska väljar.
+
                     if (selected > menu.Count - 1)
                         selected = 0; // det sista menyvalet
 
                 }
 
-                // ställ lastChange till exakt detta ögonblick:
-                lastChange = gameTime.TotalGameTime.TotalMilliseconds;
+                lastChange = gameTime.TotalGameTime.TotalMilliseconds; // ställ lastChange till exakt detta ögonblick:
 
             }
 
-            //välj ett menyval med ENTER
-            if (keyboardState.IsKeyDown(Keys.Enter))
+            if (keyboardState.IsKeyDown(Keys.Enter)) //välj ett menyval med ENTER
                 return menu[selected].State; // retunera menyvalets state
 
-            // om inget menyval har valts, så stannar vci kvar i menyn
-
-            return defaultMenuState;
+            return defaultMenuState;  // om inget menyval har valts, så stannar vi kvar i menyn
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            for (int i = 0; i < menu.Count; i++)
+            for (int i = 0; i < menu.Count; i++) 
             {
 
-                // om vi har ett aktivit menyval ritar vi ut det med en speciell färgtoning:
-                if (i == selected)
+                if (i == selected) // om vi har ett aktivit menyval ritar vi ut det med en speciell färgtoning:
                     spriteBatch.Draw(menu[i].Texture, menu[i].Position, Color.RosyBrown);
-                else // annars ingen färgtoning alls:
+                else  // annars ingen färgtoning alls:
                     spriteBatch.Draw(menu[i].Texture, menu[i].Position, Color.White);
 
             }
-
         }
-
     }
 
     class MenuItem
@@ -106,24 +96,19 @@ namespace Sevolind
         int currentState; // mentvalets state
 
 
-        public MenuItem(Texture2D texture, Vector2 position, int currentState)
+        public MenuItem(Texture2D texture, Vector2 position, int currentState) // konstruktor
         {
 
             this.texture = texture;
             this.position = position;
             this.currentState = currentState;
 
-
         }
-
+        // egenskaper för att hämta texture, position och vilket state
 
         public Texture2D Texture { get { return texture; } }
         public Vector2 Position { get { return position; } }
         public int State { get { return currentState; } }
-
-
-
-
 
     }
 

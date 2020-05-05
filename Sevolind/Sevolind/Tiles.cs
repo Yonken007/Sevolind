@@ -9,40 +9,40 @@ using System.Threading.Tasks;
 
 namespace Sevolind
 {
-    class Tiles
+    class Tiles 
     {
-        
-
         protected Texture2D texture;
 
-        private Rectangle rectangle;
-        public Rectangle Rectangle
-        {
+        private Rectangle rectangle; // reltangeln för de olika blocken
+        
+        private static ContentManager content;
+        
 
-            get { return rectangle; }
-            protected set { rectangle = value; }
+        public void Draw (SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, rectangle, Color.White);// här är draw medtoden för 
+
         }
 
-        private static ContentManager content;
-        public static ContentManager Content
+        public static ContentManager Content // Egenskaper
         {
-
             protected get { return content; }
             set { content = value; }
         }
 
-        public void Draw (SpriteBatch spriteBatch)
+        public Rectangle Rectangle // egenskaper
         {
-            spriteBatch.Draw(texture, rectangle, Color.White);
-
+            get { return rectangle; }
+            protected set { rectangle = value; }
         }
+
     }
 
     class CollisionTiles : Tiles
     {
 
-        public CollisionTiles(int i, Rectangle newRectangle)
-        {
+        public CollisionTiles(int i, Rectangle newRectangle)// här laddas texturen in i programmet. Fördelen är att den här kan ladda in flera olika textures i samma klass. 
+        {                                                   // Detta gör att alla mina tiles laddas in här och får samma egenskaper.
             texture = Content.Load<Texture2D>("Tile" + i);
             this.Rectangle = newRectangle;
 

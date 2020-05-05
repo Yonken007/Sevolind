@@ -13,7 +13,7 @@ namespace Sevolind
     {
         SpriteFont font;
 
-        public PrintText(SpriteFont font)
+        public PrintText(SpriteFont font) // konstruktor
         {
 
             this.font = font;
@@ -21,7 +21,7 @@ namespace Sevolind
         }
 
 
-        public void Print(string text, SpriteBatch spriteBatch, int X, int Y)
+        public void Print(string text, SpriteBatch spriteBatch, int X, int Y)// draw metoden för hur texten ska skrivas ut på skärmen
         {
 
             spriteBatch.DrawString(font, text, new Vector2(X, Y), Color.White);

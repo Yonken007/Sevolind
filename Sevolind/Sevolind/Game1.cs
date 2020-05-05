@@ -13,26 +13,19 @@ namespace Sevolind
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
       
-        
-    
-               
-        public Game1()
+        public Game1()// i game1 klassen väljs vilket state som spelet körs i. 
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
 
-     
         protected override void Initialize()
         {
-          
             GameElements.currentState = GameElements.State.Menu;         
             GameElements.Initialize();            
             base.Initialize();
 
-
         }
-
         
         protected override void LoadContent()
         {
@@ -40,22 +33,7 @@ namespace Sevolind
             spriteBatch = new SpriteBatch(GraphicsDevice);        
             GameElements.LoadContent(Content, Window,GraphicsDevice); // kallar på loadcontent i GameElements
             
-
-
-
-            // TODO: use this.Content to load your game content here
         }
-
- 
-        protected override void UnloadContent()
-        {
-            StreamWriter sw = new StreamWriter("Highscore.txt", true);
-
-            
-
-            
-        }
-
         
         protected override void Update(GameTime gameTime)
         {
@@ -78,17 +56,11 @@ namespace Sevolind
                 case GameElements.State.Quit: // avsluta spelet
                     this.Exit();
                     break;
-            
 
                 default: // Menu
                     GameElements.currentState = GameElements.MenuUpdate(gameTime);
                     break;
-
             }
-
-            
-           
-                
 
             base.Update(gameTime);
 
@@ -97,10 +69,7 @@ namespace Sevolind
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);                   
-                
-            
-            
-            
+                        
             switch (GameElements.currentState)
             {
                 

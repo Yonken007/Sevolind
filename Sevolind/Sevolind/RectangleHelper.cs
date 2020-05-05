@@ -10,7 +10,7 @@ namespace Sevolind
     static class RectangleHelper // Den här klassen retunerar en bool beroende på om karaktären nuddar vid olika platser på skrämen
     {
 
-        public static bool TouchTopOf(this Rectangle r1, Rectangle r2)
+        public static bool TouchTopOf(this Rectangle r1, Rectangle r2) // nuddar toppen
         {
 
             return (r1.Bottom >= r2.Top - 1 &&
@@ -20,7 +20,7 @@ namespace Sevolind
 
         }
 
-        public static bool TouchBottomOf(this Rectangle r1, Rectangle r2)
+        public static bool TouchBottomOf(this Rectangle r1, Rectangle r2)// nuddar botten
         {
 
             return (r1.Top <= r2.Bottom + (r2.Height / 5) &&
@@ -30,7 +30,7 @@ namespace Sevolind
 ;
         }
 
-        public static bool TouchLeftOf(this Rectangle r1, Rectangle r2)
+        public static bool TouchLeftOf(this Rectangle r1, Rectangle r2)//  nuddar till vänster
         {
 
             return (r1.Right <= r2.Right &&
@@ -40,7 +40,7 @@ namespace Sevolind
 
         }
 
-        public static bool TouchRightOf(this Rectangle r1, Rectangle r2)
+        public static bool TouchRightOf(this Rectangle r1, Rectangle r2)// nuddar till höger
         {
 
             return (r1.Left >= r2.Left &&
