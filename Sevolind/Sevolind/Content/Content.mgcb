@@ -13,7 +13,7 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin ../../../../../../Desktop/slime-monster/gifs/mushroom.png
+#begin ../../../../../../Desktop/spelprogrammering/slime-monster/gifs/mushroom.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -23,7 +23,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:../../../../../../Desktop/slime-monster/gifs/mushroom.png;mushroom.png
+/build:../../../../../../Desktop/spelprogrammering/slime-monster/gifs/mushroom.png;mushroom.png
 
 #begin 1.png
 /importer:TextureImporter
